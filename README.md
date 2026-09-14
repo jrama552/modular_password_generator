@@ -1,5 +1,5 @@
 # modular_password_generator
-Description: see name
+Description: **see name**
 
 GOAL: make a password generator
 objectives: (update; ts not current lol)
