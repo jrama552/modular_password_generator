@@ -7,6 +7,8 @@ objectives: (update; ts not current lol)
 - make it (somewhat) modular (you can add addition word lists, but must go through formatting and length checks -- see init_jp)
 - make a simple GUI that shows used passwords
 
+Miscellaneous:
+jp_dict.csv is the raw file from which i pulled the japanese words for
 
 
 Notes for code:
