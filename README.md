@@ -12,6 +12,6 @@ jp_dict.csv is the raw file from which i pulled the japanese words for
 
 
 Notes for code:
-jp_file is the raw imported file
-jp_dict is the cleaned file
+jp_file is the raw imported file \n
+jp_dict is the cleaned file \n
 jp_wordlist is the list of useable jp words
