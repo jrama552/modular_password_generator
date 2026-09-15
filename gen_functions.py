@@ -2,13 +2,13 @@ import secrets
 import string
 
 char_dictionary = {
-    'gen_hexacosa': 'Alphabet + Digits 0-9',
-    'gen_nonalpha': 'Special characters + Digits 0-9',
-    'gen_digits': 'Digits 0-9',
-    'gen_hexadec': 'Letters A-F + Digits 0-9',
-    'gen_punc': 'Special subset of special characters'
+    'gen_hexacosa': 'Random alphabetical & numerical character(s)',
+    'gen_nonalpha': 'Random special character(s) & digit(s)',
+    'gen_num': 'Random digit(s)',
+    'gen_hexadec': 'Random hexidecimal character(s)',
+    'gen_punc': 'Random special character(s)',
     # 'gen_alpha': 'Alphabet',
-    # 'gen_spchar': 'Special characters',
+    'gen_spchar': 'Random special character(s)'
     # 'gen_all': 'Alphabet + Digits 0-9 + Special Characters'
 }
 
