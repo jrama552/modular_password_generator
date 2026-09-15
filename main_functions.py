@@ -24,36 +24,20 @@ def init_jp():
 
 
 def order_el(sources, characters):
-    el_list = sources + characters
-    # list containg pairs of (element, ordered index)
-    # print('Number the following elements corresponding to the order in which they should generate.')
-    indexed_el = []
-    # N = len(el_list)
+    el_list = sources + characters  # list of [element, (number of char)]
+    indexed_el = []     # list of [element, order/index]
+    valid_range = [n for n in range(1, len(el_list) + 1)]
+    display_segments(el_list)
     for el in el_list:
         # seperating elements (source or characters)
         if len(el) > 1:
-            element = el[0]    # .__name__    # string name of function
-            # validate input
-            # order = int(input(f'{char_dictionary[element]}: '))
-            # to bypass manual input
-            if element == gen_hexadec:
-                order = 1
-            else:
-                if element == gen_num:
-                    order = 3
-                else:
-                    order = 4
-            indexed_el.append([[element, el[1]], order])
+            # validates user input and returns index order for each 'block/element'
+            order = validate_order_input(el, valid_range)
+            indexed_el.append([[el[0], el[1]], order])
         else:
-            source_el = el[0]   # extracting name of file
-            # validate input
-            # order = int(input(f'Word from {source_el}: '))
-            # to bypass manual input
-            if source_el == 'jp_wordlist.csv':
-                order = 2
-            else:
-                order = 4
-            indexed_el.append([source_el, order])
+            order = validate_order_input(el, valid_range)
+            indexed_el.append([el[0], order])
+        valid_range.remove(int(order))
     return sorted(indexed_el, key=lambda x: x[1])
 
 
@@ -84,26 +68,29 @@ def gen_prompt(count):
 
 def save_prompt(word):
     print(f'Generated password: {word}')
-    save_list = []
     answer = False
     while not answer:
         save_input = input('Save this password?\n').lower()
         accept = ['yes', 'y']
         deny = ['no', 'n']
         if save_input in accept:
-            save_list.append(word)
-            print('Password saved to file.')
             answer = True
-            return save_list
+            return True
         elif save_input in deny:
             answer = True
-            return save_list
+            return False
         else:
             print('Respond with yes or no.\n')
 
 
-def dis_saved(savelist):
-    if len(savelist) == 0:
+def save_word(value, word, lst):
+    if value:
+        lst.append(word)
+        return lst
+
+
+def display_save(savelist):
+    if not savelist:
         print(f'Passwords saved to file: None')
     else:
         print(f'Password(s) saved to file:')
