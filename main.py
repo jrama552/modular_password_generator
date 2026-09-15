@@ -6,7 +6,7 @@ start = time.perf_counter()
 
 # future project: automate lists and functions
 init_list = [
-    #['en_wordlist.json', init_en],
+    ['en_wordlist.json', init_en],
     ['jp_wordlist.csv', init_jp]
 ]
 
@@ -36,19 +36,17 @@ if __name__ == '__main__':
         if not generate:
             break
         word = gen_pword((order_el(source_files, char_list)))
-        session_save = save_prompt(word)
+        session_save = save_word(save_prompt(word), word, session_save)
         t += 1
-    dis_saved(session_save)
+    display_save(session_save)
 
 end = time.perf_counter()
 print(f'\n{end - start:.5f} seconds')
 
 
-# LEFT OFF: SEE CLAUDE (lol)
-# 1. seperate functions (clean up so each func is only doing
-# one thing)
-# 2. clean up functions (out of main)
+# LEFT OFF:
 # 3. other center (search, remove, assign passwords to 'account')
 # 4. save account/password pairs (password notepad) to file and retrieve
 # 5. ask user for input (what do you want to generate w/ (i.e. the
 # actual customization and modular part of the pword generation)
+# 6. similar idea, but presents of generation
