@@ -1,9 +1,10 @@
 import json
 import csv
 import pykakasi     # pip install pykakasi
-from gen_functions import char_dictionary
+from gen_functions import *
 
-# -------------------------------------------------------------
+
+# --------------------------init files-----------------------------------
 
 
 # loading file to list
@@ -23,7 +24,6 @@ def csv_list(filename):
             data.append(item)
     # print(f'reading csv_list data: \n{data}')
     return data
-# ------------------------------------------------------------------------
 
 
 # writing list to file
@@ -54,8 +54,93 @@ def clean_csv(file='jp_file.csv'):
     # writing to new file
     write_file('jp_dict.csv', data)
 
+# -----------------------------password gen functions -----------------------------------------
+
+
+def gen_pword(order):
+    pword = ''
+    for x in order:
+        # sorting for functions; [[func, num], order]
+        #                       x[0][0] x[0][1]  x[1]
+        if len(x[0]) == 2:
+            if callable(x[0][0]):
+                pword += x[0][0](x[0][1])
+        else:
+            pword += secrets.choice(read_file(x[0]))[0]
+    return pword
+
+
+def order_el(sources, characters):
+    el_list = sources + characters  # list of [element, (number of char)]
+    indexed_el = []     # list of [element, order/index]
+    valid_range = [n for n in range(1, len(el_list) + 1)]
+    display_segments(el_list)
+    testing = True  # true orders everything w/o manually asking everytime
+    if testing:
+        indexed_el = [[[gen_hexadec, 2], 1], ['en_wordlist.json', 2],
+                      [[gen_num, 2], 3], [[gen_spchar, 1], 3]]
+    else:
+        for el in el_list:
+            # seperating elements (source or characters)
+            if len(el) > 1:
+                # validates user input and returns index order for each 'block/element'
+                order = validate_order_input(el, valid_range)
+                indexed_el.append([[el[0], el[1]], order])
+            else:
+                order = validate_order_input(el, valid_range)
+                indexed_el.append([el[0], order])
+            valid_range.remove(int(order))
+    return sorted(indexed_el, key=lambda x: x[1])
+
+
+def gen_prompt():
+    flag = True
+    while flag:
+        accept = ['yes', 'y']
+        deny = ['no', 'n']
+        decision = input('Generate another password?\n')
+        if decision.lower() in deny:
+            return False
+        elif decision.lower() in accept:
+            return True
+        else:
+            print('Answer with y/n')
+
+
+def save_prompt(word):
+    print(f'Generated password: {word}')
+    answer = False
+    while not answer:
+        save_input = input('Save this password?\n').lower()
+        accept = ['yes', 'y']
+        deny = ['no', 'n']
+        if save_input in accept:
+            answer = True
+            return True
+        elif save_input in deny:
+            answer = True
+            return False
+        else:
+            print('Respond with yes or no.\n')
+
+
+def save_word(value, word, lst):
+    if value:
+        lst.append(word)
+        return lst
+
+
+def display_save(savelist):
+    if not savelist:
+        print(f'Passwords saved to file: None')
+    else:
+        print(f'Password(s) saved to file:')
+        for x in savelist:
+            print(x)
 
 # function that translates and cuts words
+
+
 def translator(lst):
     kks = pykakasi.kakasi()
     romaji = []
@@ -75,7 +160,8 @@ def validate_order_input(element, valid_range):
     flag = False
     while not flag:
         if len(element) > 1:
-            order = input(f'Order the block of custom characters from {char_dictionary[element[0].__name__]} within your password:\n')
+            order = input(f'Order the block of custom characters from'
+                          f' {char_dictionary[element[0].__name__]} within your password:\n')
             try:
                 order = int(order)
             except ValueError:
@@ -102,24 +188,4 @@ def display_segments(lst):
         else:
             print(element[0])
 
-
-'''def ordering(lst):
-    to_order = []
-    print('Number the following elements corresponding to the order in which they should generate.')
-    for element in lst:
-        to_order.append([element[0], 0])
-    for element in to_order:
-
-
-
-
-def password_display(lst):
-    init = False
-    if not init:    # building initial display
-        display = ['____']
-        p_length = len(lst)
-        for n in range(0, p_length - 1):
-            display.append("+____")
-
-    print(f'Current password configuration: \n {}')'''
-
+# --------------------------------------------------------------------------------------------------
