@@ -2,6 +2,7 @@ import json
 import csv
 import pykakasi     # pip install pykakasi
 from gen_functions import *
+from account_class import Profile
 
 
 # --------------------------init files-----------------------------------
@@ -69,6 +70,38 @@ def gen_pword(order):
             pword += secrets.choice(read_file(x[0]))[0]
     return pword
 
+
+def profile_prompt():
+
+    valid = False
+    new = ['n']
+    reassign = ['re']
+    while not valid:
+        decision = input('Generate password for [n]ew profile or [re]assign password to existing profile?')
+        if decision.lower() in new:
+            acc = input('Account/website name:\n')
+            user = get_user()   # make an ever-extending list of usernames AND tags that user can add to at anytime
+            tags = get_tags()   # tags should be a list; should also be accessing a list of pre-existing tabs
+            new_profile = Profile(acc, user, '', tags)
+
+            valid = True
+        elif decision.lower() in reassign:
+            # need to create a 'search' function first
+            valid = True
+            pass
+        else:
+            print("Respond with 'n' or 're'")
+
+
+def get_user():     # most likely a list of pre-existing users
+    return input('Username:\n')
+
+
+def get_tags():     # most likely a list of pre-existing tags
+    return input('Account tags')
+
+
+# ---------------------------------------------------------------------------------------------------------------------
 
 def order_el(sources, characters):
     el_list = sources + characters  # list of [element, (number of char)]
