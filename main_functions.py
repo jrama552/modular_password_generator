@@ -7,28 +7,28 @@ from user_functions import *
 def user_action():
     flag = False
     while not flag:
-        actions = ['g', 'v', 'e', 'ex']
-        intent = input('What do you want to do?\n[g]enerate password, '
+        actions = ['c', 'v', 'e', 'ex']
+        intent = input('What do you want to do?\n[c]reate profile/password, '
                        '[v]iew saved passwords, [e]dit saved passwords, [ex]it\n')
         if not intent.lower() in actions:
-            print("Answer must be 'g', 'v', 'e', or 'ex'.")
+            print("Answer must be 'c', 'v', 'e', or 'ex'.")
         else:
-            print(f'user intent: {intent}')
+            print(f'\x1B[3mFLAG: \x1B[0m user intent: {intent}')
             flag = True
             return intent
 
 
-def direct_user(intent):
-    if intent == 'g':
-        print(f'intent: generate password')
-        generate_password()
+def direct_user(intent, vault):
+    if intent == 'c':
+        print(f'\x1B[3mFLAG:\x1B[0m intent: create profile/password')
+        generate_password(vault)
         return True
     elif intent == 'v':
-        print(f'intent: {intent}')
+        print(f'\x1B[3mFLAG:\x1B[0m intent: {intent}')
         # function
         return True
     elif intent == 'e':
-        print(f'intent: {intent}')
+        print(f'\x1B[3mFLAG:\x1B[0m intent: {intent}')
         # function
         return True
     else:
