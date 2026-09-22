@@ -2,7 +2,8 @@ import json
 import csv
 import pykakasi     # pip install pykakasi
 from gen_functions import *
-from account_class import Profile
+from account_class import *
+from input_functions import *
 
 
 # --------------------------init files-----------------------------------
@@ -59,23 +60,31 @@ def clean_csv(file='jp_file.csv'):
 
 
 def gen_pword(order):
-    pword = ''
-    for x in order:
-        # sorting for functions; [[func, num], order]
-        #                       x[0][0] x[0][1]  x[1]
-        if len(x[0]) == 2:
-            if callable(x[0][0]):
-                pword += x[0][0](x[0][1])
-        else:
-            pword += secrets.choice(read_file(x[0]))[0]
+    gen = True
+    while gen:
+        pword = ''
+        for x in order:
+            # sorting for functions; [[func, num], order]
+            #                       x[0][0] x[0][1]  x[1]
+            if len(x[0]) == 2:
+                if callable(x[0][0]):
+                    pword += x[0][0](x[0][1])
+            else:
+                pword += secrets.choice(read_file(x[0]))[0]
+        print(f'Generated password:\n{pword}')
+        gen = gen_prompt()
     return pword
 
 
-def profile_prompt():
+# LEFT OFF HERE: doesn't return to regeneration place
 
+'''def profile_prompt():
+    # list of current reading objects; make the below list an argument later
+    vault = []  # vault is the list of 'profiles'
     valid = False
-    new = ['n']
-    reassign = ['re']
+    new = ['n', 'new']
+    reassign = ['re', 'reassign']
+    print(f'ur in profile_prompt function')
     while not valid:
         decision = input('Generate password for [n]ew profile or [re]assign password to existing profile?')
         if decision.lower() in new:
@@ -83,26 +92,79 @@ def profile_prompt():
             user = get_user()   # make an ever-extending list of usernames AND tags that user can add to at anytime
             tags = get_tags()   # tags should be a list; should also be accessing a list of pre-existing tabs
             new_profile = Profile(acc, user, '', tags)
-
+            vault.append(new_profile)
             valid = True
         elif decision.lower() in reassign:
+
             # need to create a 'search' function first
             valid = True
             pass
         else:
-            print("Respond with 'n' or 're'")
+            print("Respond with 'n' or 're'")'''
 
 
-def get_user():     # most likely a list of pre-existing users
-    return input('Username:\n')
+def view(vault):
+    # listing options
+    # print(f'\x1B[3mFLAG:\x1B[0m you are viewing vault: {vault}')
+    top_range = len(vault)
+    for num, item in enumerate(vault, start=1):
+        print(f'{num}.', end='')
+        item.printo()
+    # identifying profile
+    answer = False
+    while not answer:
+        profile_index = int(input('Select profile:\n')) - 1
+        if profile_index in range(0, top_range):
+            answer = True
+        else:
+            print('Please select profile within range.')
+            answer = False
+    # returning the index of the profile
+    return profile_index
 
 
-def get_tags():     # most likely a list of pre-existing tags
-    return input('Account tags')
+def view_assign(profile_lst, password):
+    if profile_lst == 'None':
+        print(f'you reached view_assign() with no profiles found')
+    else:
+        selected_profile = profile_lst[view(profile_lst)]
+        selected_profile.password = password
+        print('Password saved.')
+        return False
+
+
+def filter_search(lst_tup, vault):
+    #            (query, field, vault)
+    query = lst_tup[0]
+    field = lst_tup[-1]
+    filtered = []
+    found = False
+    for profile in vault:
+        if field == 'a':
+            if query in profile.acc:
+                filtered.append(profile)
+                found = True
+        elif field == 'u':
+            if query in profile.user:
+                filtered.append(profile)
+                found = True
+        elif field == 'p':
+            if query in profile.password:
+                filtered.append(profile)
+                found = True
+        else:   # iterates through both profiles, so it will flag one as not matching query duh
+            if query in profile.tags:  # CHECK LATER (bc tags is a list)
+                filtered.append(profile)
+                found = True
+    if not found:
+        print(f'No profiles with query "{query}" found.')
+        '''lst = profile.tags
+        print(f'No profiles found; profile.tags: {lst}')'''
+        return 'None'
+    return filtered
 
 
 # ---------------------------------------------------------------------------------------------------------------------
-
 def order_el(sources, characters):
     el_list = sources + characters  # list of [element, (number of char)]
     indexed_el = []     # list of [element, order/index]
@@ -111,7 +173,7 @@ def order_el(sources, characters):
     testing = True  # true orders everything w/o manually asking everytime
     if testing:
         indexed_el = [[[gen_hexadec, 2], 1], ['en_wordlist.json', 2],
-                      [[gen_num, 2], 3], [[gen_spchar, 1], 3]]
+                      [[gen_num, 2], 3], [[gen_punc, 1], 4]]
     else:
         for el in el_list:
             # seperating elements (source or characters)
@@ -124,20 +186,6 @@ def order_el(sources, characters):
                 indexed_el.append([el[0], order])
             valid_range.remove(int(order))
     return sorted(indexed_el, key=lambda x: x[1])
-
-
-def gen_prompt():
-    flag = True
-    while flag:
-        accept = ['yes', 'y']
-        deny = ['no', 'n']
-        decision = input('Generate another password?\n')
-        if decision.lower() in deny:
-            return False
-        elif decision.lower() in accept:
-            return True
-        else:
-            print('Answer with y/n')
 
 
 def save_prompt(word):
@@ -214,7 +262,7 @@ def validate_order_input(element, valid_range):
 
 # displays the blocks that will be included in the user's password
 def display_segments(lst):
-    print('The following blocks will be included in your password:')
+    # print('The following blocks will be included in your password:')
     for element in lst:
         if len(element) > 1:
             print(char_dictionary[element[0].__name__])

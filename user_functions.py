@@ -2,17 +2,27 @@ from pword_config import *
 
 
 # gen pword and assign to new profile
-def generate_password():
-    session_save = []
-    account = True
-    while account:
-
-
+def generate_password(vault):
     generate = True
     while generate:
         word = gen_pword((order_el(source_files, char_list)))
-        session_save = save_word(save_prompt(word), word, session_save)
-        generate = gen_prompt()
+        # reassign
+        if user_reassign():
+            # view all --> assigning new password
+            if user_view():
+                generate = view_assign(vault, word)
+            # filter (search) --> assigning new password
+                # print(f'Objects after view and assigning password')
+            else: # ISSUE: NEED TO PROTECT RANGE
+                generate = view_assign(filter_search(filter_vault(), vault), word)
+                # print(f'Objects after filtering and assigning password')
+            for x in vault:
+                x.printo()
+        # creating new profile
+        else:
+            pass    # use profile_prompt
 
-    # now, we need to assignt to a profile, and ask user to fill in information display_save(session_save)
+        '''vault = save_word(save_prompt(word), word, vault)
+        generate = gen_prompt()'''
+
 
