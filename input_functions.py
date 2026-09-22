@@ -26,7 +26,7 @@ def gen_prompt():
             flag = False
             return True
         else:
-            print('Answer with y/n')
+            print('Answer with re/u')
             flag = True
 
 
