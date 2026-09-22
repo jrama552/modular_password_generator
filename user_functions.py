@@ -12,10 +12,12 @@ def generate_password(vault):
             if user_view():
                 generate = view_assign(vault, word)
             # filter (search) --> assigning new password
-            else:
+                # print(f'Objects after view and assigning password')
+            else: # ISSUE: NEED TO PROTECT RANGE
                 generate = view_assign(filter_search(filter_vault(), vault), word)
-        for x in vault:
-            x.printo()
+                # print(f'Objects after filtering and assigning password')
+            for x in vault:
+                x.printo()
         # creating new profile
         else:
             pass    # use profile_prompt
