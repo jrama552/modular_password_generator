@@ -106,20 +106,31 @@ def gen_pword(order):
 def view(vault):
     # listing options
     # print(f'\x1B[3mFLAG:\x1B[0m you are viewing vault: {vault}')
+    top_range = len(vault)
     for num, item in enumerate(vault, start=1):
         print(f'{num}.', end='')
         item.printo()
     # identifying profile
-    profile_index = int(input('Select profile:\n')) - 1
+    answer = False
+    while not answer:
+        profile_index = int(input('Select profile:\n')) - 1
+        if profile_index in range(0, top_range):
+            answer = True
+        else:
+            print('Please select profile within range.')
+            answer = False
     # returning the index of the profile
     return profile_index
 
 
 def view_assign(profile_lst, password):
-    selected_profile = profile_lst[view(profile_lst)]
-    selected_profile.password = password
-    print('Password saved.')
-    return False
+    if profile_lst == 'None':
+        print(f'you reached view_assign() with no profiles found')
+    else:
+        selected_profile = profile_lst[view(profile_lst)]
+        selected_profile.password = password
+        print('Password saved.')
+        return False
 
 
 def filter_search(lst_tup, vault):
@@ -127,19 +138,29 @@ def filter_search(lst_tup, vault):
     query = lst_tup[0]
     field = lst_tup[-1]
     filtered = []
+    found = False
     for profile in vault:
         if field == 'a':
             if query in profile.acc:
                 filtered.append(profile)
+                found = True
         elif field == 'u':
             if query in profile.user:
                 filtered.append(profile)
+                found = True
         elif field == 'p':
             if query in profile.password:
                 filtered.append(profile)
-        else:
-            if query in profile.tags:   # CHECK LATER (bc tags is a list)
+                found = True
+        else:   # iterates through both profiles, so it will flag one as not matching query duh
+            if query in profile.tags:  # CHECK LATER (bc tags is a list)
                 filtered.append(profile)
+                found = True
+    if not found:
+        print(f'No profiles with query "{query}" found.')
+        '''lst = profile.tags
+        print(f'No profiles found; profile.tags: {lst}')'''
+        return 'None'
     return filtered
 
 
@@ -152,7 +173,7 @@ def order_el(sources, characters):
     testing = True  # true orders everything w/o manually asking everytime
     if testing:
         indexed_el = [[[gen_hexadec, 2], 1], ['en_wordlist.json', 2],
-                      [[gen_num, 2], 3], [[gen_spchar, 1], 3]]
+                      [[gen_num, 2], 3], [[gen_punc, 1], 4]]
     else:
         for el in el_list:
             # seperating elements (source or characters)
