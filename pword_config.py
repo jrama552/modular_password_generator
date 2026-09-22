@@ -35,6 +35,6 @@ source_files = [[item[0]] for item in init_list]
 char_list = [
     [gen_hexadec, 2],
     [gen_num, 2],
-    [gen_spchar, 1]
+    [gen_punc, 1]
     # [gen_function, number of characters]
 ]
