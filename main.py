@@ -11,11 +11,11 @@ if __name__ == '__main__':
     for file, init in init_list:
         if not os.path.exists(file):
             init()
+vault = []
+preset_vault(vault)
 run = True
 while run:
     # need to mount list/files
-    vault = []
-    preset_vault(vault)
     print(f'vault: {vault}')
     run = direct_user(user_action(), vault)
 
