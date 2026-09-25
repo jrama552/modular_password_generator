@@ -10,17 +10,17 @@ def generate_password(vault):
         if user_reassign():
             # view all --> assigning new password
             if user_view():
-                generate = view_assign(vault, word)
+                generate = view_assign(vault, word, False)
             # filter (search) --> assigning new password
                 # print(f'Objects after view and assigning password')
-            else: # ISSUE: NEED TO PROTECT RANGE
-                generate = view_assign(filter_search(filter_vault(), vault), word)
+            else:   # ISSUE: NEED TO PROTECT RANGE
+                generate = view_assign(filter_search(filter_vault(), vault), word, False)
                 # print(f'Objects after filtering and assigning password')
             for x in vault:
                 x.printo()
         # creating new profile
         else:
-            pass    # use profile_prompt
+            generate = view_assign(profile_prompt(vault), word, True)   # use profile_prompt
 
         '''vault = save_word(save_prompt(word), word, vault)
         generate = gen_prompt()'''
