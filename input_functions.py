@@ -33,9 +33,10 @@ def gen_prompt():
 def user_view():
     view_str = ['v', 'view']
     filter_str = ['f', 'filter']
-    field = input('[v]iew all or [f]ilter profiles?\n')
+
     answer = False
     while not answer:
+        field = input('[v]iew all or [f]ilter profiles?\n')
         # VIEW
         if field.lower() in view_str:
             answer = True
@@ -70,7 +71,8 @@ def get_user():     # most likely a list of pre-existing users
 
 
 def get_tags():     # most likely a list of pre-existing tags
-    tags = [input('Account tags')]
+    tags = input('Account tags: \n').split(', ')
+    print(tags)
     return tags
 
 
