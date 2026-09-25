@@ -76,7 +76,14 @@ def gen_pword(order):
     return pword
 
 
-# LEFT OFF HERE: doesn't return to regeneration place
+def profile_prompt(vault):
+    acc = input('Account/website name:\n')
+    user = get_user()  # make an ever-extending list of usernames AND tags that user can add to at anytime
+    tags = get_tags()  # tags should be a list; should also be accessing a list of pre-existing tabs
+    new_profile = Profile(acc, user, '', tags)
+    vault.append(new_profile)
+    return vault
+
 
 '''def profile_prompt():
     # list of current reading objects; make the below list an argument later
@@ -113,6 +120,7 @@ def view(vault):
     # identifying profile
     answer = False
     while not answer:
+        print(f'you reached top of func')
         profile_index = int(input('Select profile:\n')) - 1
         if profile_index in range(0, top_range):
             answer = True
@@ -123,11 +131,15 @@ def view(vault):
     return profile_index
 
 
-def view_assign(profile_lst, password):
+#                                   flag for new profile or not
+def view_assign(profile_lst, password, new):
     if profile_lst == 'None':
         print(f'you reached view_assign() with no profiles found')
     else:
-        selected_profile = profile_lst[view(profile_lst)]
+        if new:
+            selected_profile = profile_lst[-1]
+        else:
+            selected_profile = profile_lst[view(profile_lst)]
         selected_profile.password = password
         print('Password saved.')
         return False
