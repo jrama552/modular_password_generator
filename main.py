@@ -24,7 +24,6 @@ end = time.perf_counter()
 print(f'\n{end - start:.5f} seconds')
 
 
-# LEFT OFF: ISSUE PASSWORD DOES NOT SAVE <----------------
 # 2. adding profiles (acc, user, pword, tags), changing gen pwrd()
 # 3. other center (search, remove, assign passwords to 'account')
 # 4. save account/password pairs (password notepad) to file and retrieve
