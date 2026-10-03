@@ -85,31 +85,6 @@ def profile_prompt(vault):
     return vault
 
 
-'''def profile_prompt():
-    # list of current reading objects; make the below list an argument later
-    vault = []  # vault is the list of 'profiles'
-    valid = False
-    new = ['n', 'new']
-    reassign = ['re', 'reassign']
-    print(f'ur in profile_prompt function')
-    while not valid:
-        decision = input('Generate password for [n]ew profile or [re]assign password to existing profile?')
-        if decision.lower() in new:
-            acc = input('Account/website name:\n')
-            user = get_user()   # make an ever-extending list of usernames AND tags that user can add to at anytime
-            tags = get_tags()   # tags should be a list; should also be accessing a list of pre-existing tabs
-            new_profile = Profile(acc, user, '', tags)
-            vault.append(new_profile)
-            valid = True
-        elif decision.lower() in reassign:
-
-            # need to create a 'search' function first
-            valid = True
-            pass
-        else:
-            print("Respond with 'n' or 're'")'''
-
-
 def view(vault):
     # listing options
     # print(f'\x1B[3mFLAG:\x1B[0m you are viewing vault: {vault}')
