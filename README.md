@@ -1,6 +1,8 @@
 # modular_password_generator
 Description: **see name**
 
+NOTE: **WORK IN PROGRESS**
+
 GOAL: make a password generator
 objectives: (update; ts not current lol)
 - format two hexacosademical characters, a 7-9 letter word (in English OR Japanese, or any custom word list), then 3 numbers or symbols (e.g. 5ehorned8! a3building2 9cGintama#2)
