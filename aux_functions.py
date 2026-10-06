@@ -156,7 +156,7 @@ def filter_search(lst_tup, vault):
                 search_op = False
                 if not search_op:
                     if search_operator.lower() == 'and':
-                        # LEFT OFF HERE -------------------------------------------------------------------------------
+                        # LEFT OFF HERE -------------------------issue with exit, and only one tag------------------------------------------------------
                         search_op = True
                     elif search_operator.lower() == 'or':
                         for item in query:

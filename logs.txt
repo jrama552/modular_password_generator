@@ -12,4 +12,5 @@
 9/20 - 4 - filter, assign, view, etc.
 9/21 - 3 - filter (tags, esp)
 9/24 - 2 - bug fixes
-10/5 - 1.5 hours (installing pycharm, python, and git on new laptop)
+10/4 - 1.5 hours (installing pycharm, python, and git on new laptop)
+10/5 - 4 hours - fixing tag system (including multiple, and/or search, clean up, etc.)
