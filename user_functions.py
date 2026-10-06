@@ -14,7 +14,8 @@ def generate_password(vault):
             # filter (search) --> assigning new password
                 # print(f'Objects after view and assigning password')
             else:   # ISSUE: NEED TO PROTECT RANGE
-                generate = view_assign(filter_search(filter_vault(), vault), word, False)
+                print(f'line 17')
+                generate = view_assign(filter_search(filter_vault(), vault), word, False) # left off in filter_vault
                 # print(f'Objects after filtering and assigning password')
             for x in vault:
                 x.printo()
