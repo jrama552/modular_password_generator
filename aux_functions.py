@@ -115,7 +115,7 @@ def view(vault):
             answer = False
 
 #                                   flag for new profile or not
-def view_assign(profile_lst, password, new):
+def view_assign(profile_lst, password, new): # take a look at this after finishing tags
     if profile_lst == 'None':
         print(f'you reached view_assign() with no profiles found')
     else:
@@ -130,9 +130,12 @@ def view_assign(profile_lst, password, new):
 
 def filter_search(lst_tup, vault):
     #            (list(query), field, vault)
-    query = list(lst_tup[0])
+    query = lst_tup[0]
     field = lst_tup[-1]
     filtered = []
+    if len(query) > 1:
+        query = list(query)
+        search_operator = input('Choose search operator \'AND\' or \'OR\'\n')
     # MAKE query a LIST of queries
     found = False
     for profile in vault:
@@ -148,10 +151,27 @@ def filter_search(lst_tup, vault):
             if query in profile.password:
                 filtered.append(profile)
                 found = True
-        else:   # iterates through both profiles, so it will flag one as not matching query duh
-            if query in profile.tags:  # CHECK LATER (bc tags is a list)
-                filtered.append(profile)
-                found = True
+        else:   # TAGS # iterates through both profiles, so it will flag one as not matching query duh
+            if len(query) > 1:
+                search_op = False
+                if not search_op:
+                    if search_operator.lower() == 'and':
+                        # LEFT OFF HERE -------------------------------------------------------------------------------
+                        search_op = True
+                    elif search_operator.lower() == 'or':
+                        for item in query:
+                            if item in profile.tags:
+                                if profile not in filtered:
+                                    filtered.append(profile)
+                                found = True
+                        search_op = True
+                    else:
+                        print('Respond with \'and\' or \'or\'.')
+                        search_op = False
+            else:
+                if query in profile.tags:
+                    filtered.append(profile)
+                    found = True
     if not found:
         print(f'No profiles with query "{query}" found.')
         '''lst = profile.tags
