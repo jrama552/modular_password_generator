@@ -95,16 +95,24 @@ def view(vault):
     # identifying profile
     answer = False
     while not answer:
-        print(f'you reached top of func')
-        profile_index = int(input('Select profile:\n')) - 1
-        if profile_index in range(0, top_range):
-            answer = True
+        print(f'you reached top of func')   # issue: need to categorize input as name of account or number of acc
+        #   profile_index = int(input('Select profile:\n')) - 1
+        profile_index = input('Select profile using account number:\n')
+        if profile_index.isdigit():
+            profile_index = int(profile_index)
+            for x in range(1, top_range + 1):
+                print(f'num: {x}')
+            if profile_index in range(1, top_range + 1):
+                print(f'profile number successful: {profile_index}')
+                answer = True
+                print(f' answer checked and you\'re returning')
+                return profile_index - 1
+            else:
+                print('Please select profile (using corresponding a number) within the range.')
+                answer = False
         else:
-            print('Please select profile within range.')
+            print('Please select profile (using corresponding a number) within the range.')
             answer = False
-    # returning the index of the profile
-    return profile_index
-
 
 #                                   flag for new profile or not
 def view_assign(profile_lst, password, new):
@@ -121,10 +129,11 @@ def view_assign(profile_lst, password, new):
 
 
 def filter_search(lst_tup, vault):
-    #            (query, field, vault)
-    query = lst_tup[0]
+    #            (list(query), field, vault)
+    query = list(lst_tup[0])
     field = lst_tup[-1]
     filtered = []
+    # MAKE query a LIST of queries
     found = False
     for profile in vault:
         if field == 'a':

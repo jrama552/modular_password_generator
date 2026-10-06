@@ -59,11 +59,20 @@ def filter_vault():
     while field_flag:
         field = input('What field do you wish to filter through?\n[a]ccount, [u]sername, [p]assword, [t]ags\n')
         if field.lower() in field_filter.keys():
-            field_flag = False
+            if field.lower() == 't':
+                tags = []
+                tag_query = input(f'Search {field_filter[field]}(separate tags with a comma and space):\n')
+                for tag in tag_query.split(', '):
+                    tags.append(tag)
+                    field_flag = False
+                return tags, field.lower()
+            else:
+                return
+                 # query, field
         else:
             print(f'Please enter one of the options above.')
             field_flag = True
-    return input(f'Search {field_filter[field]}:\n'), field
+
 
 
 def get_user():     # most likely a list of pre-existing users
