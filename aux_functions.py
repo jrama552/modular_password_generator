@@ -130,7 +130,7 @@ def view_assign(profile_lst, password, new):
 
 def filter_search(lst_tup, vault):
     #            (list(query), field, vault)
-    query = lst_tup[0]
+    query = list(lst_tup[0])
     field = lst_tup[-1]
     filtered = []
     # MAKE query a LIST of queries
