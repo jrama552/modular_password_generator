@@ -132,9 +132,12 @@ def filter_search(lst_tup, vault):
     query = lst_tup[0]
     field = lst_tup[-1]
     filtered = []
-    if len(query) > 1   #and query.lower() == 't':
-        query = list(query)
+    if len(query) > 1:  #and query.lower() == 't':
+        print(f'query type: {type(query)}, query length: {len(query)}, query: {query}')
         search_operator = input('Choose search operator \'AND\' or \'OR\'\n')
+    else:
+        query = query[0]
+        print(f'you\'ve only entered one query search item')
     # MAKE query a LIST of queries
     found = False
     for profile in vault:
@@ -155,7 +158,6 @@ def filter_search(lst_tup, vault):
                 search_op = False
                 if not search_op:
                     if search_operator.lower() == 'and':
-                        # LEFT OFF HERE -------------------------issue with exit, need to clean up query list (when not tags)------------------------------------------------------
                         if set(query) == set(profile.tags):
                             filtered.append(profile)
                             found = True

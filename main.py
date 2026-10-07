@@ -30,3 +30,6 @@ print(f'\n{end - start:.5f} seconds')
 # 5. ask user for input (what do you want to generate w/ (i.e. the
 # actual customization and modular part of the pword generation --> pword resets)
 # 6. similar idea, but presents of generation
+
+# main run config: if module, use 'main', not 'main.py' bc it looks for .py within main;
+# if script, use main.py

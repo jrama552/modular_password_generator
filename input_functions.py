@@ -68,7 +68,7 @@ def filter_vault():
                 return tags, field.lower()
             else:
                 field_flag = False
-                return input(f'Search {field_filter[field]}:\n'), field
+                return [input(f'Search {field_filter[field]}:\n')], field
                 # query, field
         else:
             print(f'Please enter one of the options above.')
