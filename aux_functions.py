@@ -95,7 +95,6 @@ def view(vault):
     # identifying profile
     answer = False
     while not answer:
-        print(f'you reached top of func')   # issue: need to categorize input as name of account or number of acc
         #   profile_index = int(input('Select profile:\n')) - 1
         profile_index = input('Select profile using account number:\n')
         if profile_index.isdigit():
@@ -133,7 +132,7 @@ def filter_search(lst_tup, vault):
     query = lst_tup[0]
     field = lst_tup[-1]
     filtered = []
-    if len(query) > 1:
+    if len(query) > 1   #and query.lower() == 't':
         query = list(query)
         search_operator = input('Choose search operator \'AND\' or \'OR\'\n')
     # MAKE query a LIST of queries
@@ -156,8 +155,11 @@ def filter_search(lst_tup, vault):
                 search_op = False
                 if not search_op:
                     if search_operator.lower() == 'and':
-                        # LEFT OFF HERE -------------------------issue with exit, and only one tag------------------------------------------------------
-                        search_op = True
+                        # LEFT OFF HERE -------------------------issue with exit, need to clean up query list (when not tags)------------------------------------------------------
+                        if set(query) == set(profile.tags):
+                            filtered.append(profile)
+                            found = True
+                            search_op = True
                     elif search_operator.lower() == 'or':
                         for item in query:
                             if item in profile.tags:
@@ -169,7 +171,10 @@ def filter_search(lst_tup, vault):
                         print('Respond with \'and\' or \'or\'.')
                         search_op = False
             else:
-                if query in profile.tags:
+                print(f'query: {query}')
+                for x in profile.tags:
+                    print(f'profile tags for {profile.acc}: {x}')
+                if query[0] in profile.tags:
                     filtered.append(profile)
                     found = True
     if not found:
